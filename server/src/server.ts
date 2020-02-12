@@ -47,7 +47,7 @@ createConnection(dbName)
     }
 
     // User Controller
-    app.use(UserRouter.routes()).use(TodoRouter.allowedMethods());
+    app.use(UserRouter.routes()).use(UserRouter.allowedMethods());
     // Todo Contorller
     app.use(TodoRouter.routes()).use(TodoRouter.allowedMethods());
     // listening on port 9000
