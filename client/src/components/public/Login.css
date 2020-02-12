@@ -1,0 +1,45 @@
+.login-div {
+  width: 300px;
+  height: 250px;
+  grid-column: 4/10;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+h3{
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.form-input {
+  margin-top: 2px;
+  align-self: center;
+  width: 250px;
+  border: 1px rgb(223, 223, 223) solid;
+}
+
+.login-div .input-submit {
+  align-self: center;
+  width: 150px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.login-div .btn-link {
+  align-self: center;
+  margin-top: 10px;
+  width: 150px;
+  color: cornflowerblue;
+}
