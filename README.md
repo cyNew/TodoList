@@ -20,7 +20,7 @@ You can edit `server/ormconfig.json` if necessary.
 yarn start
 ```
 
-The server will running on `http://127.0.0.1:9000`.
+The server will run on `http://127.0.0.1:9000`.
 
 - build
 
@@ -44,7 +44,7 @@ yarn install
 yarn start
 ```
 
-The client will running on `http://127.0.0.1:3000`
+The client will run on `http://127.0.0.1:3000`
 
 - build
 
@@ -59,3 +59,5 @@ Copy the `client/build` folder to `server/` folder, then
 ```shell
 yarn serve
 ```
+
+The app will run on `http://127.0.0.1:9000`
