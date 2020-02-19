@@ -1,5 +1,4 @@
-import { Context, DefaultState } from "koa";
-import Router from "koa-router";
+import { Context, Next } from "koa";
 import bcrypt from "bcryptjs";
 import { getRepository } from "typeorm";
 import { UserTable } from "../entity/user.entity";
@@ -7,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 const dbName: string = process.env.NODE_ENV === "production" ? "prod" : "test";
 class UserController {
-  static async createUser(ctx: Context) {
+  static async createUser(ctx: Context, next?: Next) {
     const userRepo = getRepository(UserTable, dbName);
     // get the registry info
     const { username, password, email } = ctx.request.body;
@@ -50,7 +49,7 @@ class UserController {
     }
   }
 
-  static async login(ctx: Context) {
+  static async login(ctx: Context, next?: Next) {
     const userRepo = getRepository(UserTable, dbName);
 
     const { username, password } = ctx.request.body;
@@ -98,10 +97,4 @@ class UserController {
   }
 }
 
-const BASE_URL: string = "/api/v1/user";
-const router = new Router<DefaultState, Context>();
-router
-  .post(BASE_URL + "/register", UserController.createUser)
-  .post(BASE_URL + "/login", UserController.login);
-
-export { router as UserRouter };
+export { UserController };

@@ -1,5 +1,4 @@
-import { Context, DefaultState } from "koa";
-import Router from "koa-router";
+import { Context, Next } from "koa";
 import { getRepository } from "typeorm";
 import { TodoTable } from "../entity/todo.entity";
 
@@ -12,9 +11,9 @@ const dbName: string = process.env.NODE_ENV === "production" ? "prod" : "test";
 class TodoController {
   // find all todos
   // URL: /api/v1/todo
-  public static async getAllTodo(ctx: Context) {
+  public static async getAllTodo(ctx: Context, next?: Next) {
     const todoRepo = getRepository(TodoTable, dbName);
-    const todos = await todoRepo.find({userid: ctx.header.userid});
+    const todos = await todoRepo.find({ userid: ctx.header.userid });
     if (todos !== undefined && todos.length >= 1) {
       ctx.body = {
         data: todos
@@ -26,9 +25,9 @@ class TodoController {
   }
 
   // find a single todo
-  public static async getByIdTodo(ctx: Context) {
+  public static async getByIdTodo(ctx: Context, next?: Next) {
     const todoRepo = getRepository(TodoTable, dbName);
-    const todo = await todoRepo.findOne({id: ctx.params.id});
+    const todo = await todoRepo.findOne({ id: ctx.params.id });
     if (!todo) {
       ctx.status = 404;
       return;
@@ -38,7 +37,7 @@ class TodoController {
     };
   }
 
-  public static async createTodo(ctx: Context) {
+  public static async createTodo(ctx: Context, next?: Next) {
     const todoRepo = getRepository(TodoTable, dbName);
     const { todo } = ctx.request.body;
 
@@ -68,7 +67,7 @@ class TodoController {
     }
   }
 
-  public static async updateTodo(ctx: Context) {
+  public static async updateTodo(ctx: Context, next?: Next) {
     const todoRepo = getRepository(TodoTable, dbName);
     let todo = await todoRepo.findOne(ctx.params.id);
 
@@ -92,7 +91,7 @@ class TodoController {
     }
   }
 
-  public static async delTodo(ctx: Context) {
+  public static async delTodo(ctx: Context, next?: Next) {
     const todoRepo = getRepository(TodoTable, dbName);
     const todo = await todoRepo.findOne(ctx.params.id);
     if (!todo) {
@@ -114,14 +113,4 @@ class TodoController {
   }
 }
 
-const router = new Router<DefaultState, Context>();
-const BASE_URL: string = "/api/v1/todo";
-
-router
-  .get(BASE_URL, TodoController.getAllTodo)
-  .post(BASE_URL, TodoController.createTodo)
-  .get(BASE_URL + "/:id", TodoController.getByIdTodo)
-  .put(BASE_URL + "/:id", TodoController.updateTodo)
-  .del(BASE_URL + "/:id", TodoController.delTodo);
-
-export { router as TodoRouter };
+export { TodoController };
