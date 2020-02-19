@@ -12,7 +12,7 @@ This todolist powered by React and Koajs with TypeScript.
 yarn install
 ```
 
-- start development server
+- Start development server
 
 You can edit `server/ormconfig.json` if necessary.
 
@@ -22,7 +22,7 @@ yarn start
 
 The server will run on `http://127.0.0.1:9000`.
 
-- build
+- Build
 
 Compile the `server/src` folder to `server/dist` folder
 
@@ -38,7 +38,7 @@ yarn build
 yarn install
 ```
 
-- start
+- Start
 
 ```shell
 yarn start
@@ -46,7 +46,7 @@ yarn start
 
 The client will run on `http://127.0.0.1:3000`
 
-- build
+- Build
 
 ```shell
 yarn build
@@ -54,9 +54,10 @@ yarn build
 
 ## Deployment
 
-Copy the `client/build` folder to `server/` folder, then
+Copy the `client/build` folder to `server` folder, then in `server` folder
 
 ```shell
+yarn build
 yarn serve
 ```
 
