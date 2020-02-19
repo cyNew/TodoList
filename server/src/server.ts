@@ -6,8 +6,9 @@ import jwt from "koa-jwt";
 import { createConnection } from "typeorm";
 import path from "path";
 import logger from "./middleware/logger";
-import { TodoRouter } from "./controller/todo.controller";
-import { UserRouter } from "./controller/user.controller";
+// import { TodoRouter } from "./controller/todo.controller";
+// import { UserRouter } from "./controller/user.controller";
+import router from "./route";
 import errorHanlder from "./middleware/errorHandler";
 
 const staticPath: string = "../build";
@@ -33,7 +34,7 @@ createConnection(dbName)
     app.use(errorHanlder);
     app.use(
       jwt({ secret: "react-koa-secret" }).unless({
-        path: [/^\//,/^\/api\/v1\/user\/login/, /^\/api\/v1\/user\/register/]
+        path: [/^\//, /^\/api\/v1\/user\/login/, /^\/api\/v1\/user\/register/]
       })
     );
 
@@ -46,10 +47,7 @@ createConnection(dbName)
       });
     }
 
-    // User Controller
-    app.use(UserRouter.routes()).use(UserRouter.allowedMethods());
-    // Todo Contorller
-    app.use(TodoRouter.routes()).use(TodoRouter.allowedMethods());
+    app.use(router.routes()).use(router.allowedMethods());
     // listening on port 9000
     app.listen(9000, () => {
       console.log(`working on ${process.env.NODE_ENV} env`);
