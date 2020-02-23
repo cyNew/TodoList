@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import TodoItem from "./TodoItem";
 import TodoInput from "./TodoInput";
-import "./TodoList.css";
 import { UserContext } from "../../context/UserContext";
 
 enum Status {

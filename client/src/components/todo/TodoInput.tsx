@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./TodoInput.css";
 
 interface Props {
   handleTodo: (todo: string) => void;

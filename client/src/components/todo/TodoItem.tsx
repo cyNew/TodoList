@@ -1,5 +1,4 @@
 import React from "react";
-import "./TodoItem.css";
 import { ReactComponent as Del } from "../../asserts/delete.svg";
 
 enum Status {

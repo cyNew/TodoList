@@ -6,8 +6,6 @@ import jwt from "koa-jwt";
 import { createConnection } from "typeorm";
 import path from "path";
 import logger from "./middleware/logger";
-// import { TodoRouter } from "./controller/todo.controller";
-// import { UserRouter } from "./controller/user.controller";
 import router from "./route";
 import errorHanlder from "./middleware/errorHandler";
 

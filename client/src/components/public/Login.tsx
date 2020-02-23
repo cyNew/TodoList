@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import "./Login.css";
 import { UserContext } from "../../context/UserContext";
 
 const Login: React.FC = () => {

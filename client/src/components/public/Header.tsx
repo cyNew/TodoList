@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import "./Header.css";
 import { UserContext } from "../../context/UserContext";
 
 const Header: React.FC = () => {

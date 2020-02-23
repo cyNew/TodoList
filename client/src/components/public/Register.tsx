@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./Register.css";
 import { useHistory } from "react-router-dom";
 
 const Register: React.FC = () => {
