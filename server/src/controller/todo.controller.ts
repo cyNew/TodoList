@@ -53,7 +53,7 @@ class TodoController {
         ctx.status = 404;
         ctx.body = {
           success: false,
-          msg: "Not Found Todo"
+          msg: "No todo found"
         }
       }
     } catch (err) {
@@ -128,7 +128,7 @@ class TodoController {
         ctx.status = 404;
         ctx.body = {
           success: false,
-          msg: "Not Found Todo"
+          msg: "No todo found"
         };
       }
     } catch (err) {
@@ -160,7 +160,7 @@ class TodoController {
         ctx.status = 404;
         ctx.body = {
           success: false,
-          msg: "Not Found todo"
+          msg: "No todo found"
         };
       }
     } catch (err) {
