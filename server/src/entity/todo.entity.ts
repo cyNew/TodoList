@@ -22,11 +22,11 @@ class Todo {
   @Column("text")
   completed: string;
 
-  @Column("datetime")
-  created: Date;
+  @Column("text")
+  created: string;
 
-  @Column("datetime")
-  updated: Date;
+  @Column("text")
+  updated: string;
 }
 
 export { Todo as TodoTable };

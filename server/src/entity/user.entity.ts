@@ -21,11 +21,11 @@ class User {
   @Column("boolean", { default: false })
   isAuth: boolean;
 
-  @Column("datetime")
-  created: Date;
+  @Column("text")
+  created: string;
 
-  @Column("datetime", {nullable: true})
-  login: Date;
+  @Column("text", {nullable: true})
+  login: string;
 }
 
 export { User as UserTable };
