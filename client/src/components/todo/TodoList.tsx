@@ -16,7 +16,7 @@ interface Todo {
 }
 
 const TodoList: React.FC = () => {
-  const API_URL = "http://127.0.0.1:9000/api/v1/todo";
+  const API_URL = "/api/v1/todo";
   const [todos, setTodos] = useState<Todo[]>([]);
   const { state } = useContext(GlobalContext);
   const { isLoggedIn, userid, token } = state;

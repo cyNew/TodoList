@@ -14,7 +14,7 @@ const Login: React.FC = () => {
     try {
       event.preventDefault();
       let res = await axios({
-        url: "http://127.0.0.1:9000/api/v1/user/login",
+        url: "/api/v1/user/login",
         method: "post",
         data: {
           username,

@@ -18,7 +18,7 @@ const Register: React.FC = () => {
     try {
       event.preventDefault();
       let res = await axios({
-        url: "http://127.0.0.1:9000/api/v1/user/register",
+        url: "/api/v1/user/register",
         method: "post",
         data: {
           username,

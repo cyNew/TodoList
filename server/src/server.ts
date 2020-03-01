@@ -1,7 +1,6 @@
 import Koa, { Context } from "koa";
 import bodyParser from "koa-bodyparser";
 import serve from "koa-static";
-import cors from "@koa/cors";
 import jwt from "koa-jwt";
 import { createConnection } from "typeorm";
 import path from "path";
@@ -11,20 +10,10 @@ import errorHanlder from "./middleware/errorHandler";
 
 const staticPath: string = "../build";
 const dbName: string = process.env.NODE_ENV === "production" ? "prod" : "test";
-const origin: string =
-  process.env.NODE_ENV == "production"
-    ? "http://localhost:9000"
-    : "http://localhost:3000";
 
 createConnection(dbName)
   .then(connection => {
     const app = new Koa();
-    // check the env and allow which port will be access
-    app.use(
-      cors({
-        origin
-      })
-    );
 
     // use middlewares
     app.use(bodyParser());
