@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
+import { GlobalContext } from "../../context/GlobalContext";
 
 const Header: React.FC = () => {
-  const { state, dispatch } = useContext(UserContext);
+  const { state, dispatch } = useContext(GlobalContext);
   const { isLoggedIn } = state;
 
   // action logout

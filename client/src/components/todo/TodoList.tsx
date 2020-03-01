@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import axios from "axios";
 import TodoItem from "./TodoItem";
 import TodoInput from "./TodoInput";
-import { UserContext } from "../../context/UserContext";
+import { GlobalContext } from "../../context/GlobalContext";
 
 enum Status {
   y = "Y",
@@ -18,7 +18,7 @@ interface Todo {
 const TodoList: React.FC = () => {
   const API_URL = "http://127.0.0.1:9000/api/v1/todo";
   const [todos, setTodos] = useState<Todo[]>([]);
-  const { state } = useContext(UserContext);
+  const { state } = useContext(GlobalContext);
   const { isLoggedIn, userid, token } = state;
 
   const fetchData = useCallback(async (): Promise<void> => {
@@ -120,7 +120,7 @@ const TodoList: React.FC = () => {
           ? todos.map(todo => (
               <TodoItem
                 key={todo.id}
-                id={todo.id}
+                _id={todo.id}
                 todo={todo.todo}
                 completed={todo.completed}
                 handleComplete={updateComplete}

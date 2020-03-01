@@ -6,14 +6,14 @@ enum Status {
   n = "N"
 }
 interface Props {
-  id: number;
+  _id: number;
   todo: string;
   completed: Status;
   handleComplete: (id: number) => void;
   handleDelete: (id: number) => void;
 }
 const TodoItem: React.FC<Props> = ({
-  id,
+  _id,
   todo,
   completed,
   handleComplete,
@@ -25,7 +25,7 @@ const TodoItem: React.FC<Props> = ({
       <input
         type="checkbox"
         defaultChecked={checked}
-        onClick={() => handleComplete(id)}
+        onClick={() => handleComplete(_id)}
       />
       <span
         style={{
@@ -34,7 +34,7 @@ const TodoItem: React.FC<Props> = ({
       >
         {todo}
       </span>
-      <span className="icons todo-del" onClick={() => handleDelete(id)}>
+      <span className="icons todo-del" onClick={() => handleDelete(_id)}>
         <Del />
       </span>
     </li>

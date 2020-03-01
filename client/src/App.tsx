@@ -4,14 +4,14 @@ import TodoList from "./components/todo/TodoList";
 import Header from "./components/public/Header";
 import About from "./components/public/About";
 import "./App.css";
-import { UserProvider } from "./context/UserContext";
+import { GlobalProvider } from "./context/GlobalContext";
 import Login from "./components/public/Login";
 import Register from "./components/public/Register";
 
 const App: React.FC = () => {
   return (
     <div className="app">
-      <UserProvider>
+      <GlobalProvider>
         <Router>
           <Header />
           <Switch>
@@ -29,7 +29,7 @@ const App: React.FC = () => {
             </Route>
           </Switch>
         </Router>
-      </UserProvider>
+      </GlobalProvider>
     </div>
   );
 };

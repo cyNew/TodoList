@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../../context/UserContext";
+import { GlobalContext } from "../../context/GlobalContext";
 
 const Login: React.FC = () => {
   let history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(GlobalContext);
 
   // handle login
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
