@@ -1,35 +1,55 @@
-export interface StateType {
-  userid: string;
-  isLoggedIn: boolean;
-  token: string;
-}
-// interface for action
-export interface ActionType {
+export type UserStateType =
+  | {
+      userid: string;
+      token: string;
+      isLoggedIn: boolean;
+      error?: string | undefined;
+    }
+  | {
+      userid: string;
+      token: string;
+      isLoggedIn: boolean;
+      error?: string | undefined;
+      login: (username: string, password: string) => void;
+      logout: () => void;
+    };
+
+export interface UserActionType {
   type: string;
   payload: {
-    userid: string;
-    token: string;
+    userid?: string;
+    token?: string;
+    error?: string;
   };
 }
 
-export const AppReducer = (state: StateType, action: ActionType) => {
+export const AppReducer = (
+  state: UserStateType,
+  action: UserActionType
+): UserStateType => {
   switch (action.type) {
     case "LOGIN":
-      localStorage.setItem("token", action.payload.token!);
-      localStorage.setItem("userid", action.payload.userid!);
       return {
-        userid: action.payload.userid,
-        isLoggedIn: true,
-        token: action.payload.token
+        ...state,
+        userid: action.payload.userid!,
+        token: action.payload.token!,
+        isLoggedIn: true
       };
+
     case "LOGOUT":
-      localStorage.removeItem("token");
-      localStorage.removeItem("userid");
       return {
-        userid: action.payload.userid,
-        isLoggedIn: false,
-        token: action.payload.token
+        ...state,
+        userid: "",
+        token: "",
+        isLoggedIn: false
       };
+
+    case "ERROR":
+      return {
+        ...state,
+        error: action.payload.error
+      };
+
     default:
       return state;
   }

@@ -1,31 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ReactComponent as Del } from "../../asserts/delete.svg";
+import { GlobalContext } from "../../context/GlobalContext";
+import { TodoContext } from "../../context/TodoContext";
 
-enum Status {
-  y = "Y",
-  n = "N"
-}
 interface Props {
   _id: number;
   todo: string;
-  completed: Status;
-  handleComplete: (id: number) => void;
-  handleDelete: (id: number) => void;
+  completed: string;
 }
-const TodoItem: React.FC<Props> = ({
-  _id,
-  todo,
-  completed,
-  handleComplete,
-  handleDelete
-}) => {
+const TodoItem: React.FC<Props> = ({ todo, _id, completed }) => {
+  const { userid, token } = useContext(GlobalContext);
+  const { updateTodo, deleteTodo } = useContext(TodoContext);
   const checked = completed === "Y" ? true : false;
   return (
     <li className="todo-item">
       <input
         type="checkbox"
         defaultChecked={checked}
-        onClick={() => handleComplete(_id)}
+        onClick={() => {
+          updateTodo(userid, token, _id);
+        }}
       />
       <span
         style={{
@@ -34,7 +28,12 @@ const TodoItem: React.FC<Props> = ({
       >
         {todo}
       </span>
-      <span className="icons todo-del" onClick={() => handleDelete(_id)}>
+      <span
+        className="icons todo-del"
+        onClick={() => {
+          deleteTodo(userid, token, _id);
+        }}
+      >
         <Del />
       </span>
     </li>

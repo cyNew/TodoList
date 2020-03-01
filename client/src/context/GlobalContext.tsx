@@ -1,24 +1,80 @@
-import React, { createContext, useReducer, Dispatch } from "react";
-import { AppReducer, StateType, ActionType } from "./AppReducer";
+import React, { createContext, useReducer, Reducer } from "react";
+import { AppReducer, UserStateType, UserActionType } from "./AppReducer";
+import axios from "axios";
 
-// initial state
-const initialState = {
+const initailState: UserStateType = {
   userid: localStorage.getItem("userid") || "",
+  token: localStorage.getItem("token") || "",
   isLoggedIn: localStorage.getItem("userid") ? true : false,
-  token: localStorage.getItem("token") || ""
+  error: "",
+  login: (username: string, password: string) => {},
+  logout: () => {}
 };
 
-export const GlobalContext = createContext<{state: StateType, dispatch: Dispatch<ActionType>}>({
-  state: initialState,
-  dispatch: () => {}
-});
+export const GlobalContext = createContext(initailState);
 
-export const GlobalProvider: React.FC = props => {
-  const [state, dispatch] = useReducer(AppReducer, initialState);
+export const GlobalProvider: React.FC = ({ children }) => {
+  const API_URL = "/api/v1/user/login";
+  const [state, dispatch] = useReducer<Reducer<UserStateType, UserActionType>>(
+    AppReducer,
+    initailState
+  );
+
+  // @desc User Sign in
+  // @url POST /api/v1/uesr
+  const login = async (username: string, password: string): Promise<void> => {
+    try {
+      const res = await axios({
+        url: API_URL,
+        method: "POST",
+        data: {
+          username,
+          password
+        }
+      });
+
+      if (res.data.success) {
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            userid: res.data.userid,
+            token: res.data.token
+          }
+        });
+        localStorage.setItem("userid", res.data.userid);
+        localStorage.setItem("token", res.data.token);
+      } else {
+        throw new Error(res.data.msg);
+      }
+    } catch (error) {
+      dispatch({
+        type: "ERROR",
+        payload: { error }
+      });
+    }
+  };
+
+  function logout() {
+    dispatch({
+      type: "LOGOUT",
+      payload: {}
+    });
+    localStorage.removeItem("userid");
+    localStorage.removeItem("token");
+  }
 
   return (
-    <GlobalContext.Provider value={{ state, dispatch }}>
-      {props.children}
+    <GlobalContext.Provider
+      value={{
+        isLoggedIn: state.isLoggedIn,
+        userid: state.userid,
+        token: state.token,
+        error: "",
+        login,
+        logout
+      }}
+    >
+      {children}
     </GlobalContext.Provider>
   );
 };

@@ -43,7 +43,6 @@ class TodoController {
     try {
       const todo = await todoRepo.findOne({ id: ctx.params.id });
       if (todo) {
-
         ctx.status = 200;
         ctx.body = {
           success: true,
@@ -54,7 +53,7 @@ class TodoController {
         ctx.body = {
           success: false,
           msg: "No todo found"
-        }
+        };
       }
     } catch (err) {
       ctx.status = 500;
@@ -115,7 +114,7 @@ class TodoController {
     try {
       const todo = await todoRepo.findOne(ctx.params.id);
       if (todo) {
-        todo.completed = Status.y || Status.n;
+        todo.completed = todo.completed === "Y" ? "N" : "Y";
         todo.updated = new Date().toLocaleString();
         const data = await todoRepo.save(todo);
 

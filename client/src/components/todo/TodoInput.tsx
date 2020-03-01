@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { GlobalContext } from "../../context/GlobalContext";
+import { TodoContext } from "../../context/TodoContext";
 
-interface Props {
-  handleTodo: (todo: string) => void;
-}
-
-const TodoInput: React.FC<Props> = ({ handleTodo }) => {
+const TodoInput: React.FC = () => {
   const [todo, setTodo] = useState("");
+  const { userid, token } = useContext(GlobalContext);
+  const { createTodo } = useContext(TodoContext);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(event.target.value);
@@ -14,9 +14,9 @@ const TodoInput: React.FC<Props> = ({ handleTodo }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     if (!todo) {
       window.alert("todo is null!");
-      event.preventDefault()
+      event.preventDefault();
     } else {
-      handleTodo(todo);
+      createTodo(userid, token, todo);
       event.preventDefault();
       setTodo("");
     }

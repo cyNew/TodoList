@@ -1,34 +1,18 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import { GlobalContext } from "../../context/GlobalContext";
 
 const Login: React.FC = () => {
   let history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { dispatch } = useContext(GlobalContext);
+  const { login } = useContext(GlobalContext);
 
   // handle login
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-    try {
-      event.preventDefault();
-      let res = await axios({
-        url: "/api/v1/user/login",
-        method: "post",
-        data: {
-          username,
-          password
-        }
-      });
-      dispatch({
-        type: "LOGIN",
-        payload: { userid: res.data.userid, token: res.data.token }
-      });
-      history.push("/");
-    } catch (error) {
-      console.error(error);
-    }
+    event.preventDefault();
+    login(username, password);
+    history.push("/");
   };
 
   return (
