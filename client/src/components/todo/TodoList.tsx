@@ -11,7 +11,7 @@ const TodoList: React.FC = () => {
   // fetching data on loading first time
   useEffect(() => {
     getAllTodos(userid, token);
-  }, []);
+  }, [isLoggedIn, userid, token]);
 
   return isLoggedIn ? (
     <div className="todo-container">
