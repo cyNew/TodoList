@@ -16,9 +16,9 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-div">
-      <h3>Sign in</h3>
-      <form onSubmit={handleLogin}>
+    <div className="login-container container">
+      <h3 className="title">Sign in</h3>
+      <form className="login-form" onSubmit={handleLogin}>
         <label htmlFor="username">Username:</label>
         <input
           required
@@ -37,13 +37,23 @@ const Login: React.FC = () => {
           onChange={e => setPassword(e.target.value)}
           value={password}
         />
-        <button className="input-submit" type="submit" value="Sign in">
-          Sign In
-        </button>
-        {/* link button to register */}
-        <button className="btn-link" onClick={() => history.push("/register")}>
-          No account? Sign Up
-        </button>
+
+        <div className="btn-container">
+          <button
+            className="input-submit form-btn"
+            type="submit"
+            value="Sign in"
+          >
+            Sign In
+          </button>
+          {/* link button to register */}
+          <button
+            className="form-btn"
+            onClick={() => history.push("/register")}
+          >
+            No account? Sign Up
+          </button>
+        </div>
       </form>
     </div>
   );

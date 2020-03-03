@@ -11,17 +11,17 @@ interface Props {
 const TodoItem: React.FC<Props> = ({ todo, _id, completed }) => {
   const { userid, token } = useContext(GlobalContext);
   const { updateTodo, deleteTodo } = useContext(TodoContext);
-  const checked = completed === "Y" ? true : false;
   return (
     <li className="todo-item">
       <input
         type="checkbox"
-        defaultChecked={checked}
+        defaultChecked={completed === "Y" ? true : false}
         onClick={() => {
           updateTodo(userid, token, _id);
         }}
       />
       <span
+        className="todo-content"
         style={{
           textDecorationLine: completed === "Y" ? "line-through" : "none"
         }}
@@ -29,12 +29,12 @@ const TodoItem: React.FC<Props> = ({ todo, _id, completed }) => {
         {todo}
       </span>
       <span
-        className="icons todo-del"
+        className="icon-wrapper todo-del"
         onClick={() => {
           deleteTodo(userid, token, _id);
         }}
       >
-        <Del />
+        <Del className="icon"/>
       </span>
     </li>
   );

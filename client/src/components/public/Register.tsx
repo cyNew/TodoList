@@ -39,8 +39,8 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="register-div">
-      <h3>Register</h3>
+    <div className="register-container container">
+      <h3 className="title">Register</h3>
       <form onSubmit={handleRegister}>
         <label htmlFor="username">Username:</label>
         <input
@@ -84,7 +84,11 @@ const Register: React.FC = () => {
           value={password2}
           onChange={e => setPassword2(e.target.value)}
         />
-        <button className="input-submit" type="submit">Register</button>
+        <div className="btn-container">
+          <button className="input-submit form-btn" type="submit">
+            Register
+          </button>
+        </div>
       </form>
     </div>
   );

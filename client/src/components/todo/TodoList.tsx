@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useCallback } from "react";
+import React, { useEffect, useContext } from "react";
 import TodoItem from "./TodoItem";
 import TodoInput from "./TodoInput";
 import { GlobalContext } from "../../context/GlobalContext";
@@ -6,17 +6,17 @@ import { TodoContext } from "../../context/TodoContext";
 
 const TodoList: React.FC = () => {
   const { isLoggedIn, userid, token } = useContext(GlobalContext);
-  const { todos, getAllTodos, loading } = useContext(TodoContext);
+  const { todos, getAllTodos } = useContext(TodoContext);
 
   // fetching data on loading first time
   useEffect(() => {
     getAllTodos(userid, token);
-  }, [loading]);
+  }, []);
 
   return isLoggedIn ? (
     <div className="todo-container">
       <TodoInput />
-      <ul>
+      <ul className="todo-list">
         {todos
           ? todos.map(todo => (
               <TodoItem
@@ -30,7 +30,7 @@ const TodoList: React.FC = () => {
       </ul>
     </div>
   ) : (
-    <h3 style={{ gridColumn: "4/10", alignSelf: "center" }}>
+    <h3 className="text">
       Error, No authorization, Please Sign In
     </h3>
   );
