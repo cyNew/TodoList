@@ -88,17 +88,8 @@ nav .link-item {
   justify-content: space-evenly;
 }
 
-.form-btn {
-  height: 25px;
-  background-color: white;
-  font-size: 14px;
-  border-radius: 5px;
-}
-
 .form-btn:nth-child(2) {
-  border: 1px solid #ddd;
-  background-color: cornflowerblue;
-  color: whitesmoke;
+  color: cornflowerblue;
 }
 
 .todo-container {
@@ -115,10 +106,11 @@ nav .link-item {
   width: 300px;
   height: 50px;
   font-size: 20px;
+  line-height: 50px;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding-left: 10px;
-  transition: transform 0.6s ease-in-out;
+  transition: transform 0.5s ease;
 }
 
 .todo-input:focus {
@@ -136,7 +128,6 @@ nav .link-item {
 
 .todo-item {
   width: 90%;
-  height: 30px;
   margin: 0 auto;
   margin-top: 10px;
   padding: 10px 0;
@@ -145,7 +136,7 @@ nav .link-item {
   align-items: center;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 12px 0 rgba(0, 0, 0, 0.19);
   transition: transform 0.5s ease-in-out;
-  animation: 1s ease-in-out forwards showanimation;
+  animation: 0.6s ease-in forwards showanimation;
 }
 
 @keyframes showanimation {
@@ -161,9 +152,8 @@ nav .link-item {
   transform: scale(1.05);
 }
 
-.todo-item input {
-  font-size: 30px;
-  border: 1px solid #ddd;
+.todo-item input[type="checkbox"] {
+  transform: scale(1.3);
 }
 
 .todo-content {
@@ -172,12 +162,13 @@ nav .link-item {
 }
 
 .icon-wrapper {
-  align-self: flex-end;
+  height: 25px;
+  width: 25px;
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 100%;
+  height: 100%;
 }
 
 @media (max-width: 400px) {

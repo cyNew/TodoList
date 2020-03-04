@@ -28,14 +28,14 @@ const TodoItem: React.FC<Props> = ({ todo, _id, completed }) => {
       >
         {todo}
       </span>
-      <span
+      <div
         className="icon-wrapper todo-del"
         onClick={() => {
           deleteTodo(userid, token, _id);
         }}
       >
         <Del className="icon"/>
-      </span>
+      </div>
     </li>
   );
 };
