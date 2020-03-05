@@ -13,7 +13,7 @@ const Login: React.FC = () => {
     if (isLoggedIn) {
       history.push("/");
     }
-  }, [isLoggedIn, history]);
+  }, [isLoggedIn]);
 
   // handle login
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {

@@ -15,7 +15,7 @@ class UserController {
     const { username, password, email } = ctx.request.body;
 
     try {
-      const user = await userRepo.findOne({ username, email });
+      const user = await userRepo.findOne({ username });
       console.log(user);
       if (!user) {
         console.log("here");
