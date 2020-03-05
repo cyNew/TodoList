@@ -81,7 +81,6 @@ nav .link-item {
 .btn-container {
   margin: 5px auto;
   padding: 5px;
-  height: 70px;
   width: 150px;
   display: flex;
   flex-direction: column;
@@ -90,6 +89,13 @@ nav .link-item {
 
 .form-btn:nth-child(2) {
   color: cornflowerblue;
+}
+
+.msg-box {
+  margin: auto;
+  margin-top: 10px;
+  text-align: center;
+  color: #aa1111;
 }
 
 .todo-container {
