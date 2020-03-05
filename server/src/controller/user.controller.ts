@@ -16,7 +16,9 @@ class UserController {
 
     try {
       const user = await userRepo.findOne({ username, email });
+      console.log(user);
       if (!user) {
+        console.log("here");
         const newUser = new UserTable();
 
         // hash the password
@@ -37,14 +39,14 @@ class UserController {
           msg: "Create user successfully"
         };
       } else {
-        ctx.status = 400;
+        // ctx.status = 400;
         ctx.body = {
           success: false,
           msg: "User does exists"
         };
       }
     } catch (err) {
-      ctx.status = 500;
+      // ctx.status = 500;
       ctx.body = {
         success: false,
         msg: "Server Error"
@@ -82,14 +84,14 @@ class UserController {
 
           userRepo.save(user);
         } else {
-          ctx.status = 400;
+          // ctx.status = 400;
           ctx.body = {
             success: false,
             msg: "Wrong password"
           };
         }
       } else {
-        ctx.status = 404;
+        // ctx.status = 404;
         ctx.body = {
           success: false,
           msg: "No user found"
