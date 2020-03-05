@@ -16,9 +16,7 @@ class UserController {
 
     try {
       const user = await userRepo.findOne({ username });
-      console.log(user);
       if (!user) {
-        console.log("here");
         const newUser = new UserTable();
 
         // hash the password
