@@ -14,7 +14,7 @@ const initailState: UserStateType = {
 export const GlobalContext = createContext(initailState);
 
 export const GlobalProvider: React.FC = ({ children }) => {
-  const API_URL = "/api/v1/user/login";
+  const API_URL = "/api/v1/user/";
   const [state, dispatch] = useReducer<Reducer<UserStateType, UserActionType>>(
     AppReducer,
     initailState
@@ -22,17 +22,16 @@ export const GlobalProvider: React.FC = ({ children }) => {
 
   // @desc User Sign in
   // @url POST /api/v1/uesr
-  const login = async (username: string, password: string): Promise<void> => {
+  const login = async (username: string, password: string) => {
     try {
       const res = await axios({
-        url: API_URL,
+        url: API_URL + "login",
         method: "POST",
         data: {
           username,
           password
         }
       });
-
       if (res.data.success) {
         dispatch({
           type: "LOGIN",
@@ -49,7 +48,7 @@ export const GlobalProvider: React.FC = ({ children }) => {
     } catch (error) {
       dispatch({
         type: "ERROR",
-        payload: { error }
+        payload: { error: error.message }
       });
     }
   };
@@ -69,7 +68,7 @@ export const GlobalProvider: React.FC = ({ children }) => {
         isLoggedIn: state.isLoggedIn,
         userid: state.userid,
         token: state.token,
-        error: "",
+        error: state.error,
         login,
         logout
       }}

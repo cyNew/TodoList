@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { MsgBox } from "./MsgBox";
 
 const Register: React.FC = () => {
   const history = useHistory();
@@ -8,18 +9,22 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [email, setEmail] = useState("");
+  const [msg, setMsg] = useState("");
 
-  // handle register
-  const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    event.preventDefault();
+
     if (password !== password2) {
-      alert("Passwords are not same");
+      setMsg("");
+      alert("Passwords are not same!");
+      return;
     }
-
     try {
-      event.preventDefault();
-      let res = await axios({
+      const res = await axios({
         url: "/api/v1/user/register",
-        method: "post",
+        method: "POST",
         data: {
           username,
           password,
@@ -27,14 +32,16 @@ const Register: React.FC = () => {
         }
       });
 
-      if (res.status === 200) {
-        alert("register success");
+      if (res.data.success) {
+        setMsg("");
+        alert("Register successfully!");
+        history.push("/login");
+      } else {
+        throw new Error(res.data.msg);
       }
-
-      history.push("/login");
-      // console.log(res.data.userid);
     } catch (error) {
-      console.error(error);
+      setMsg(error.message);
+      return;
     }
   };
 
@@ -42,7 +49,7 @@ const Register: React.FC = () => {
     <div className="register-container container">
       <h3 className="title">Register</h3>
       <form onSubmit={handleRegister}>
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="username">Username</label>
         <input
           minLength={6}
           maxLength={16}
@@ -53,7 +60,7 @@ const Register: React.FC = () => {
           value={username}
           onChange={e => setUsername(e.target.value)}
         />
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">Email</label>
         <input
           required
           id="email"
@@ -62,7 +69,7 @@ const Register: React.FC = () => {
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="password1">Password:</label>
+        <label htmlFor="password1">Password</label>
         <input
           minLength={8}
           maxLength={16}
@@ -73,7 +80,7 @@ const Register: React.FC = () => {
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
-        <label htmlFor="password2">Vertify Password:</label>
+        <label htmlFor="password2">Vertify Password</label>
         <input
           minLength={8}
           maxLength={16}
@@ -84,6 +91,7 @@ const Register: React.FC = () => {
           value={password2}
           onChange={e => setPassword2(e.target.value)}
         />
+        <MsgBox msg={msg} />
         <div className="btn-container">
           <button className="input-submit form-btn" type="submit">
             Register

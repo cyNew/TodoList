@@ -33,7 +33,8 @@ export const AppReducer = (
         ...state,
         userid: action.payload.userid!,
         token: action.payload.token!,
-        isLoggedIn: true
+        isLoggedIn: true,
+        error: ""
       };
 
     case "LOGOUT":
@@ -41,7 +42,8 @@ export const AppReducer = (
         ...state,
         userid: "",
         token: "",
-        isLoggedIn: false
+        isLoggedIn: false,
+        error: ""
       };
 
     case "ERROR":

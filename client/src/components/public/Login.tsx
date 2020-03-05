@@ -1,25 +1,31 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalContext";
+import { MsgBox } from "./MsgBox";
 
 const Login: React.FC = () => {
   let history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(GlobalContext);
+  const { login, isLoggedIn } = useContext(GlobalContext);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.push("/");
+    }
+  }, [isLoggedIn, history]);
 
   // handle login
-  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     login(username, password);
-    history.push("/");
   };
 
   return (
     <div className="login-container container">
       <h3 className="title">Sign in</h3>
       <form className="login-form" onSubmit={handleLogin}>
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="username">Username</label>
         <input
           required
           id="username"
@@ -28,7 +34,7 @@ const Login: React.FC = () => {
           onChange={e => setUsername(e.target.value)}
           value={username}
         />
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">Password</label>
         <input
           required
           id="password"
@@ -37,6 +43,8 @@ const Login: React.FC = () => {
           onChange={e => setPassword(e.target.value)}
           value={password}
         />
+
+        <MsgBox msg={""}/>
 
         <div className="btn-container">
           <button
