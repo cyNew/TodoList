@@ -32,23 +32,20 @@ export const GlobalProvider: React.FC = ({ children }) => {
           password
         }
       });
-      if (res.data.success) {
-        dispatch({
-          type: "LOGIN",
-          payload: {
-            userid: res.data.userid,
-            token: res.data.token
-          }
-        });
-        localStorage.setItem("userid", res.data.userid);
-        localStorage.setItem("token", res.data.token);
-      } else {
-        throw new Error(res.data.msg);
-      }
+
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          userid: res.data.userid,
+          token: res.data.token
+        }
+      });
+      localStorage.setItem("userid", res.data.userid);
+      localStorage.setItem("token", res.data.token);
     } catch (error) {
       dispatch({
         type: "ERROR",
-        payload: { error: error.message }
+        payload: { error: error.response.data.msg }
       });
     }
   };

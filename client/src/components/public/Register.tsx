@@ -31,16 +31,11 @@ const Register: React.FC = () => {
           email
         }
       });
-
-      if (res.data.success) {
-        setMsg("");
-        alert("Register successfully!");
-        history.push("/login");
-      } else {
-        throw new Error(res.data.msg);
-      }
+      setMsg("");
+      alert("Register successfully!");
+      history.push("/login");
     } catch (error) {
-      setMsg(error.message);
+      setMsg(error.response.data.msg);
       return;
     }
   };
