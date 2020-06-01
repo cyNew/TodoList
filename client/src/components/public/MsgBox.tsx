@@ -6,12 +6,12 @@ interface Props {
 }
 
 export const MsgBox: React.FC<Props> = ({ msg }) => {
-  const { error } = useContext(GlobalContext);
+  const { state } = useContext(GlobalContext);
   const [errorMsg, setErrorMsg] = useState(msg);
 
   useEffect(() => {
-    setErrorMsg(error!);
-  }, [error]);
+    setErrorMsg(state.error);
+  }, [state.error]);
 
   useEffect(() => {
     setErrorMsg(msg);

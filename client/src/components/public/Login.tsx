@@ -2,18 +2,53 @@ import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalContext";
 import { MsgBox } from "./MsgBox";
+import axios from "axios";
 
 const Login: React.FC = () => {
   let history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isLoggedIn } = useContext(GlobalContext);
+  const { state, dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (state.isLoggedIn) {
       history.push("/");
     }
-  }, [isLoggedIn]);
+  }, [state.isLoggedIn]);
+
+  // @desc User Sign in
+  // @url POST /api/v1/uesr
+  const login = async (username: string, password: string) => {
+    const API_URL = "/api/v1/user/";
+    try {
+      const res = await axios({
+        url: API_URL + "login",
+        method: "POST",
+        data: {
+          username,
+          password,
+        },
+      });
+
+      dispatch && dispatch({
+        type: "LOGIN",
+        payload: {
+          userid: res.data.userid,
+          token: res.data.token,
+          error: "",
+        },
+      });
+    } catch (error) {
+      dispatch && dispatch({
+        type: "ERROR",
+        payload: {
+          userid: "",
+          token: "",
+          error: error.response.data.msg,
+        },
+      });
+    }
+  };
 
   // handle login
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,7 +66,7 @@ const Login: React.FC = () => {
           id="username"
           className="form-input"
           type="text"
-          onChange={e => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
         <label htmlFor="password">Password</label>
@@ -40,11 +75,11 @@ const Login: React.FC = () => {
           id="password"
           className="form-input"
           type="password"
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           value={password}
         />
 
-        <MsgBox msg={""}/>
+        <MsgBox msg={""} />
 
         <div className="btn-container">
           <button

@@ -3,7 +3,19 @@ import { Link } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalContext";
 
 const Header: React.FC = () => {
-  const { isLoggedIn, logout } = useContext(GlobalContext);
+  const { state, dispatch } = useContext(GlobalContext);
+
+  function logout() {
+    dispatch &&
+      dispatch({
+        type: "LOGOUT",
+        payload: {
+          userid: "",
+          token: "",
+          error: "",
+        },
+      });
+  }
 
   // check the login status
   return (
@@ -13,7 +25,7 @@ const Header: React.FC = () => {
         <Link className="link-item" to="/">
           Home
         </Link>
-        {isLoggedIn ? (
+        {state.isLoggedIn ? (
           <Link className="link-item" to="/login" onClick={logout}>
             Sign out
           </Link>

@@ -1,179 +1,88 @@
-import React, { createContext, useReducer, Reducer } from "react";
-import axios from "axios";
-import { TodoReducer, TodoStateType, TodoActionType, Todo, Status } from "./TodoReducer";
+import React, { createContext, useReducer } from "react";
 
-const initialState: TodoStateType = {
+interface TodoInterface {
+  id: number;
+  todo: string;
+  completed: string;
+  created: string;
+  updated: string;
+}
+interface TodoStateInterface {
+  todos: Array<TodoInterface>;
+  error?: string;
+}
+
+interface TodoActionInterface {
+  type: string;
+  payload: {
+    todos: Array<TodoInterface>;
+    id?: number;
+    error?: string;
+  };
+}
+
+const initState: TodoStateInterface = {
   todos: [],
   error: "",
-  loading: true,
-  getAllTodos: (userid: string, token: string) => {},
-  createTodo: (userid: string, token: string, todo: string) => {},
-  updateTodo: (userid: string, token: string, id: number) => {},
-  deleteTodo: (userid: string, token: string, id: number) => {}
 };
 
-export const TodoContext = createContext(initialState);
+const TodoContext: React.Context<{
+  state: TodoStateInterface;
+  dispatch?: React.Dispatch<TodoActionInterface>;
+}> = createContext({
+  state: initState,
+});
 
-export const TodoProvider: React.FC = ({ children }) => {
-  const API_URL = "/api/v1/todo";
-  const [state, dispatch] = useReducer<Reducer<TodoStateType, TodoActionType>>(
-    TodoReducer,
-    initialState
-  );
+const reducer: React.Reducer<TodoStateInterface, TodoActionInterface> = (
+  state,
+  action
+) => {
+  switch (action.type) {
+    case "GET":
+      return {
+        ...state,
+        todos: action.payload.todos,
+      };
+    case "ADD":
+      return {
+        ...state,
+        todos: [...state.todos, ...action.payload.todos],
+      };
 
-  const getAllTodos = async (userid: string, token: string): Promise<void> => {
-    try {
-      const res = await axios({
-        url: API_URL,
-        method: "GET",
-        headers: {
-          userid,
-          authorization: `Bearer ${token}`
-        }
-      });
-      if (res.data.success) {
-        dispatch({
-          type: "GET",
-          payload: {
-            todos: res.data.data
-          }
-        });
-      } else {
-        throw new Error(res.data.msg);
-      }
-    } catch (error) {
-      dispatch({
-        type: "ERROR",
-        payload: {
-          error
-        }
-      });
-    }
-  };
+    case "UPDATE":
+      return {
+        ...state,
+        todos: action.payload.todos,
+      };
+    case "DELETE":
+      return {
+        ...state,
+        todos: state.todos.filter((todo) => todo.id !== action.payload.id),
+      };
+    case "ERROR":
+      return {
+        ...state,
+        error: action.payload.error,
+      };
+    default:
+      return state;
+  }
+};
 
-  const createTodo = async (
-    userid: string,
-    token: string,
-    todo: string
-  ): Promise<void> => {
-    try {
-      const res = await axios({
-        url: API_URL,
-        method: "POST",
-        headers: {
-          userid,
-          authorization: `Bearer ${token}`
-        },
-        data: {
-          todo
-        }
-      });
-      if (res.data.success) {
-        dispatch({
-          type: "ADD",
-          payload: {
-            todos: res.data.data
-          }
-        });
-      } else {
-        throw new Error(res.data.msg);
-      }
-    } catch (error) {
-      dispatch({
-        type: "ERROR",
-        payload: { error }
-      });
-    }
-  };
-
-  const updateTodo = async (
-    userid: string,
-    token: string,
-    id: number
-  ): Promise<void> => {
-    try {
-      const res = await axios({
-        url: `${API_URL}/${id}`,
-        method: "PUT",
-        headers: {
-          userid,
-          authorization: `Bearer ${token}`
-        }
-      });
-      if (res.data.success) {
-        const newTodos: Array<Todo> = state.todos.map(todo => {
-          if (todo.id === id) {
-            todo.completed = todo.completed === "Y" ? Status.n : Status.y;
-          }
-          return todo;
-        });
-
-        dispatch({
-          type: "UPDATE",
-          payload: {
-            todos: newTodos
-          }
-        });
-      } else {
-        throw new Error(res.data.msg);
-      }
-    } catch (error) {
-      dispatch({
-        type: "ERROR",
-        payload: {
-          error
-        }
-      });
-    }
-  };
-
-  const deleteTodo = async (
-    userid: string,
-    token: string,
-    id: number
-  ): Promise<void> => {
-    try {
-      const res = await axios({
-        url: `${API_URL}/${id}`,
-        method: "DELETE",
-        headers: {
-          userid,
-          authorization: `Bearer ${token}`
-        }
-      });
-      if (res.data.success) {
-        dispatch({
-          type: "DELETE",
-          payload: {
-            id
-          }
-        });
-      } else {
-        throw new Error(res.data.msg);
-      }
-    } catch (error) {
-      dispatch({
-        type: "ERROR",
-        payload: {
-          error
-        }
-      });
-    }
-  };
+const TodoProvider: React.FC = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initState);
 
   return (
     <TodoContext.Provider
       value={{
-        todos: state.todos,
-        loading: state.loading,
-        error: state.error,
-        getAllTodos,
-        createTodo,
-        updateTodo,
-        deleteTodo
+        state,
+        dispatch,
       }}
     >
       {children}
     </TodoContext.Provider>
   );
 };
+
+export default TodoProvider;
+export { TodoContext };

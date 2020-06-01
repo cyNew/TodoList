@@ -4,8 +4,8 @@ import TodoList from "./components/todo/TodoList";
 import Header from "./components/public/Header";
 import About from "./components/public/About";
 import "./App.css";
-import { GlobalProvider } from "./context/GlobalContext";
-import { TodoProvider } from "./context/TodoContext";
+import GlobalProvider from "./context/GlobalContext";
+import TodoProvider from "./context/TodoContext";
 import Login from "./components/public/Login";
 import Register from "./components/public/Register";
 

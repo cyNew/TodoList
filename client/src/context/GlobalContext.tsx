@@ -1,76 +1,87 @@
-import React, { createContext, useReducer, Reducer } from "react";
-import { AppReducer, UserStateType, UserActionType } from "./AppReducer";
-import axios from "axios";
+import React, { createContext, useReducer } from "react";
 
-const initailState: UserStateType = {
+interface UserStateInterface {
+  userid: string;
+  token: string;
+  isLoggedIn: boolean;
+  error: string;
+}
+
+interface UserActionInterface {
+  type: string;
+  payload: {
+    userid: string;
+    token: string;
+    error: string;
+  };
+}
+
+const initState: UserStateInterface = {
   userid: localStorage.getItem("userid") || "",
   token: localStorage.getItem("token") || "",
-  isLoggedIn: localStorage.getItem("userid") ? true : false,
+  isLoggedIn: !!localStorage.getItem("userid"),
   error: "",
-  login: (username: string, password: string) => {},
-  logout: () => {}
 };
 
-export const GlobalContext = createContext(initailState);
+const reducer: React.Reducer<UserStateInterface, UserActionInterface> = (
+  state,
+  action
+) => {
+  switch (action.type) {
+    case "LOGIN":
+      localStorage.setItem("userid", action.payload.userid);
+      localStorage.setItem("token", action.payload.token);
+      return {
+        ...state,
+        userid: action.payload.userid,
+        token: action.payload.token,
+        isLoggedIn: true,
+        error: "",
+      };
 
-export const GlobalProvider: React.FC = ({ children }) => {
-  const API_URL = "/api/v1/user/";
-  const [state, dispatch] = useReducer<Reducer<UserStateType, UserActionType>>(
-    AppReducer,
-    initailState
-  );
+    case "LOGOUT":
+      localStorage.removeItem("userid");
+      localStorage.removeItem("token");
+      return {
+        ...state,
+        userid: "",
+        token: "",
+        isLoggedIn: false,
+        error: "",
+      };
 
-  // @desc User Sign in
-  // @url POST /api/v1/uesr
-  const login = async (username: string, password: string) => {
-    try {
-      const res = await axios({
-        url: API_URL + "login",
-        method: "POST",
-        data: {
-          username,
-          password
-        }
-      });
+    case "ERROR":
+      return {
+        ...state,
+        error: action.payload.error,
+      };
 
-      dispatch({
-        type: "LOGIN",
-        payload: {
-          userid: res.data.userid,
-          token: res.data.token
-        }
-      });
-      localStorage.setItem("userid", res.data.userid);
-      localStorage.setItem("token", res.data.token);
-    } catch (error) {
-      dispatch({
-        type: "ERROR",
-        payload: { error: error.response.data.msg }
-      });
-    }
-  };
-
-  function logout() {
-    dispatch({
-      type: "LOGOUT",
-      payload: {}
-    });
-    localStorage.removeItem("userid");
-    localStorage.removeItem("token");
+    default:
+      return state;
   }
+};
+
+const GlobalContext: React.Context<{
+  state: UserStateInterface;
+  dispatch?: React.Dispatch<UserActionInterface>;
+}> = createContext({
+  state: initState,
+});
+
+const GlobalProvider: React.FC = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initState);
 
   return (
     <GlobalContext.Provider
       value={{
-        isLoggedIn: state.isLoggedIn,
-        userid: state.userid,
-        token: state.token,
-        error: state.error,
-        login,
-        logout
+        state,
+        dispatch,
       }}
     >
       {children}
     </GlobalContext.Provider>
   );
 };
+
+export default GlobalProvider;
+export { GlobalContext };
